@@ -371,3 +371,65 @@ export const modelApi = {
     return request(`/model/health?provider=${provider}`);
   },
 };
+
+// ============ 智能体工作流 ============
+export const workflowApi = {
+  // 启动工作流
+  start: async (params) => {
+    return request('/workflow/start', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+  },
+
+  // 获取状态
+  getState: async (id) => {
+    return request(`/workflow/${id}/state`);
+  },
+
+  // 列出草稿
+  listDrafts: async (params = {}) => {
+    const query = new URLSearchParams(params).toString();
+    return request(`/workflow/drafts?${query}`);
+  },
+
+  // 重做图像
+  regenerateImage: async (id, panelIdx, imageType = 'both') => {
+    return request(`/workflow/${id}/panel/${panelIdx}/regenerate-image?image_type=${imageType}`, {
+      method: 'POST',
+    });
+  },
+
+  // 重做语音
+  regenerateVoice: async (id, panelIdx) => {
+    return request(`/workflow/${id}/panel/${panelIdx}/regenerate-voice`, {
+      method: 'POST',
+    });
+  },
+
+  // 更新镜头
+  updatePanel: async (id, panelIdx, data) => {
+    return request(`/workflow/${id}/panel/${panelIdx}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  },
+
+  // 重新合成
+  recompose: async (id, options = {}) => {
+    return request(`/workflow/${id}/recompose`, {
+      method: 'POST',
+      body: JSON.stringify(options),
+    });
+  },
+
+  // 获取时间轴
+  getTimeline: async (id) => {
+    return request(`/workflow/${id}/timeline`);
+  },
+
+  // 删除
+  delete: async (id) => {
+    return request(`/workflow/${id}`, { method: 'DELETE' });
+  },
+};

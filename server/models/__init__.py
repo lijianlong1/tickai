@@ -14,6 +14,7 @@ from .favorite import Favorite
 from .model_config import ModelConfig
 from .video_project import VideoProject
 from .character import Character
+from .workflow import Workflow, WorkflowPanelHistory
 
 __all__ = [
     "User",
@@ -29,4 +30,6 @@ __all__ = [
     "ModelConfig",
     "VideoProject",
     "Character",
+    "Workflow",
+    "WorkflowPanelHistory",
 ]

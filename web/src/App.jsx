@@ -7,6 +7,7 @@ import CreatePage from './pages/CreatePage';
 import DemoPage from './pages/DemoPage';
 import ComicCreatePage from './pages/ComicCreatePage';
 import ImageCreatePage from './pages/ImageCreatePage';
+import WorkflowPage from './pages/WorkflowPage';
 import TextCreatePage from './pages/TextCreatePage';
 import VoiceCreatePage from './pages/VoiceCreatePage';
 import MusicCreatePage from './pages/MusicCreatePage';
@@ -27,6 +28,8 @@ function App() {
           <Route path="/create" element={<CreatePage />} />
           <Route path="/demo" element={<DemoPage />} />
           <Route path="/create/comic" element={<ComicCreatePage />} />
+          <Route path="/workflow" element={<WorkflowPage />} />
+          <Route path="/workflow/:id" element={<WorkflowPage />} />
           <Route path="/create/image" element={<ImageCreatePage />} />
           <Route path="/create/text" element={<TextCreatePage />} />
           <Route path="/create/voice" element={<VoiceCreatePage />} />
