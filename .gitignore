@@ -1,0 +1,253 @@
+# ====== 所有 .* 隐藏文件/目录 ======
+# 忽略所有点开头的文件/目录
+.*
+# 但保留以下必要的配置文件
+!.gitignore
+!.gitattributes
+!.gitkeep
+!.editorconfig
+!.env.example
+!.eslintrc.js
+!.eslintrc.json
+!.eslintrc.yml
+!.prettierrc
+!.prettierrc.js
+!.prettierrc.json
+!.prettierrc.yml
+!.babelrc
+!.babelrc.js
+!.dockerignore
+!.npmrc
+!.yarnrc
+!.yarnrc.yml
+!.nvmrc
+!.node-version
+!.python-version
+!.travis.yml
+!.gitlab-ci.yml
+!.circleci/
+
+# ====== 工具配置目录 ======
+# Trae IDE 本地配置
+.trae/
+# Spec Kit 项目模板
+.specify/
+# GitHub Copilot agents
+.github/
+
+# ====== Node / 前端 ======
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node 依赖
+node_modules/
+web/node_modules/
+jspm_packages/
+
+# 构建产物
+dist/
+dist-ssr/
+build/
+out/
+web/dist/
+web/build/
+*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# ====== Python / 后端 ======
+# 编译文件 / 字节码
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.dll
+*.pyd
+*.pyc
+*.pyo
+
+# C/C++ 编译产物
+*.o
+*.obj
+*.a
+*.lib
+*.exe
+*.out
+
+# Java 编译产物
+*.class
+*.jar
+*.war
+*.ear
+target/
+build/
+
+# Go 编译产物
+*.exe
+*.exe~
+*.dll
+*.dylib
+*.test
+*.out
+
+# Rust 编译产物
+target/
+Cargo.lock
+
+# 虚拟环境
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+server/.env
+agent/.env
+web/.env
+web/.env.local
+
+# 日志 / 进程
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# 测试覆盖率
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.cache
+coverage.xml
+*.cover
+.hypothesis/
+
+# Jupyter
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# 数据库
+*.db
+*.sqlite
+*.sqlite3
+*.mdb
+*.accdb
+
+# 类型检查 / Linter
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+.dmypy.json
+dmypy.json
+
+# 打包
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+MANIFEST
+
+# ====== 编辑器 / IDE ======
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.idea/
+*.iml
+*.iws
+*.ipr
+.fleet/
+.cursor/
+.aider*
+*.swp
+*.swo
+*~
+
+# 系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Thumbs.db:encryptable
+Desktop.ini
+$RECYCLE.BIN/
+
+# ====== Docker / 部署 ======
+# 忽略构建产物，保留配置
+docker-compose.override.yml
+*.dockerfile.bak
+
+# ====== 项目特定 ======
+# 上传文件 / 资源
+uploads/
+static/uploads/
+media/
+tmp/
+temp/
+*.tmp
+
+# AI 模型 / 训练产物
+models/
+*.pt
+*.pth
+*.onnx
+*.h5
+*.hdf5
+*.pb
+*.tflite
+*.pkl
+*.joblib
+*.npy
+*.npz
+checkpoints/
+logs/
+wandb/
+runs/
+
+# 前端缓存
+.cache/
+.parcel-cache/
+.turbo/
+.next/
+.nuxt/
+.svelte-kit/
+.vite/
+.tmp/
+
+# 备份文件
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*.save
+*.swp
+*~

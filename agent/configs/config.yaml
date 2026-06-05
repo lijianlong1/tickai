@@ -1,0 +1,134 @@
+# Tick-AI Agent 中台配置
+# 承担数据处理分析 + 大模型调用 + 智能化能力
+
+# 后端服务配置（Java API）
+backend:
+  base_url: "http://localhost:8080/api"
+  timeout: 30
+  retry: 3
+
+# Agent 中台自身服务
+agent:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  log_level: "INFO"
+
+# AI 模型配置
+llm:
+  default_provider: "openai"
+  providers:
+    openai:
+      api_key: "${OPENAI_API_KEY}"
+      base_url: "https://api.openai.com/v1"
+      model: "gpt-4o-mini"
+      temperature: 0.7
+      max_tokens: 4096
+
+    dashscope:
+      api_key: "${DASHSCOPE_API_KEY}"
+      base_url: "https://dashscope.aliyuncs.com/api/v1"
+      model: "qwen-plus"
+      temperature: 0.7
+      max_tokens: 4096
+
+    zhipu:
+      api_key: "${ZHIPU_API_KEY}"
+      base_url: "https://open.bigmodel.cn/api/paas/v4"
+      model: "glm-4-flash"
+      temperature: 0.7
+      max_tokens: 4096
+
+# TTS 语音合成
+tts:
+  providers:
+    edge:
+      enabled: true
+      voices: ["zh-CN-XiaoxiaoNeural", "zh-CN-YunxiNeural"]
+    baidu:
+      enabled: false
+      app_id: "${BAIDU_APP_ID}"
+      api_key: "${BAIDU_API_KEY}"
+      secret_key: "${BAIDU_SECRET_KEY}"
+
+# 文生图配置
+text_to_image:
+  providers:
+    stability:
+      api_key: "${STABILITY_API_KEY}"
+      model: "stable-diffusion-xl-1024-v1-0"
+    dalle:
+      enabled: true
+      model: "dall-e-3"
+      size: "1024x1024"
+
+# 智能体（Agent）配置
+agents:
+  comic_creator:
+    name: "AI 漫剧导演"
+    description: "负责 AI 漫剧剧本创作和分镜设计"
+    llm_provider: "openai"
+    system_prompt_file: "prompts/comic_creator.txt"
+    tools: ["script_generator", "storyboard_designer"]
+
+  image_generator:
+    name: "AI 图像大师"
+    description: "负责图片生成提示词优化和风格把控"
+    llm_provider: "openai"
+    system_prompt_file: "prompts/image_generator.txt"
+    tools: ["prompt_optimizer", "style_transfer"]
+
+  text_writer:
+    name: "AI 写作助手"
+    description: "负责各类文本内容创作"
+    llm_provider: "dashscope"
+    system_prompt_file: "prompts/text_writer.txt"
+    tools: ["content_writer", "proofreader"]
+
+  voice_director:
+    name: "AI 语音导演"
+    description: "负责语音合成参数优化和情感把控"
+    llm_provider: "zhipu"
+    system_prompt_file: "prompts/voice_director.txt"
+    tools: ["voice_selector", "emotion_adjuster"]
+
+  music_composer:
+    name: "AI 音乐家"
+    description: "负责音乐创作和编曲"
+    llm_provider: "openai"
+    system_prompt_file: "prompts/music_composer.txt"
+    tools: ["melody_generator", "arranger"]
+
+  community_moderator:
+    name: "社区审核员"
+    description: "负责社区内容审核和质量评估"
+    llm_provider: "zhipu"
+    system_prompt_file: "prompts/community_moderator.txt"
+    tools: ["content_classifier", "quality_scorer"]
+
+# 定时任务
+tasks:
+  tips_scraper:
+    enabled: true
+    cron: "0 8 * * *"
+    description: "每日爬取副业技巧"
+    agent: "text_writer"
+
+  community_recommend:
+    enabled: true
+    cron: "0 */2 * * *"
+    description: "每两小时更新社区推荐"
+    agent: "community_moderator"
+
+# 缓存配置
+cache:
+  type: "file"  # file / redis
+  ttl: 3600
+  path: "data/cache"
+
+# 日志
+logging:
+  level: "INFO"
+  file: "logs/agent.log"
+  rotation: "10MB"
+  backup: 5
