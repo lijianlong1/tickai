@@ -4,6 +4,7 @@ Tick-AI 后端主应用
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
 # 加载环境变量
@@ -17,6 +18,9 @@ from routes.works import router as works_router
 from routes.prompts import router as prompts_router
 from routes.voice_history import router as voice_history_router
 from routes.create_history import router as create_history_router
+from routes.video import router as video_router
+from routes.model_config import router as model_config_router
+from routes.character import router as character_router, init_default_characters
 
 # 创建应用实例
 app = FastAPI(
@@ -34,6 +38,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# 挂载静态文件目录
+os.makedirs("static/videos", exist_ok=True)
+os.makedirs("static/audios", exist_ok=True)
+os.makedirs("static/images", exist_ok=True)
+os.makedirs("static/previews", exist_ok=True)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # 注册路由
 app.include_router(auth_router, prefix="/api")
 app.include_router(user_router, prefix="/api")
@@ -41,6 +52,9 @@ app.include_router(works_router, prefix="/api")
 app.include_router(prompts_router, prefix="/api")
 app.include_router(voice_history_router, prefix="/api")
 app.include_router(create_history_router, prefix="/api")
+app.include_router(video_router, prefix="/api")
+app.include_router(model_config_router, prefix="/api")
+app.include_router(character_router, prefix="/api")
 
 
 @app.on_event("startup")
@@ -52,6 +66,13 @@ async def startup_event():
         print("✅ 数据库表创建成功")
     except Exception as e:
         print(f"❌ 数据库初始化失败: {e}")
+
+    # 初始化系统预置角色
+    print("🎭 正在初始化系统预置角色...")
+    try:
+        await init_default_characters()
+    except Exception as e:
+        print(f"❌ 初始化角色失败: {e}")
 
 
 @app.get("/")

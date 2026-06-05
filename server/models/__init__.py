@@ -11,6 +11,9 @@ from .consume_record import ConsumeRecord
 from .work_like import WorkLike
 from .work_comment import WorkComment
 from .favorite import Favorite
+from .model_config import ModelConfig
+from .video_project import VideoProject
+from .character import Character
 
 __all__ = [
     "User",
@@ -23,4 +26,7 @@ __all__ = [
     "WorkLike",
     "WorkComment",
     "Favorite",
+    "ModelConfig",
+    "VideoProject",
+    "Character",
 ]

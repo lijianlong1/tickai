@@ -182,3 +182,139 @@ export const clearUser = () => {
 };
 
 export const isAuthenticated = () => !!getToken();
+
+// ============ 视频生成 ============
+export const videoApi = {
+  // 启动视频生成
+  generate: async (params) => {
+    return request('/video/generate', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+  },
+
+  // 列出我的视频项目
+  getProjects: async (params = {}) => {
+    const query = new URLSearchParams(params).toString();
+    return request(`/video/projects?${query}`);
+  },
+
+  // 获取项目详情
+  getProject: async (id) => {
+    return request(`/video/projects/${id}`);
+  },
+
+  // 查询生成状态
+  getStatus: async (id) => {
+    return request(`/video/projects/${id}/status`);
+  },
+
+  // 删除项目
+  delete: async (id) => {
+    return request(`/video/projects/${id}`, { method: 'DELETE' });
+  },
+
+  // 获取下载 URL
+  downloadUrl: (id) => {
+    return `${API_BASE_URL}/video/projects/${id}/download`;
+  },
+
+  // 触发下载
+  download: async (id) => {
+    const token = getToken();
+    const response = await fetch(`${API_BASE_URL}/video/projects/${id}/download`, {
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+    });
+    if (!response.ok) {
+      throw new Error('下载失败');
+    }
+    return response.blob();
+  },
+
+  // 获取字幕预设
+  getSubtitlePresets: async () => {
+    return request('/video/subtitle-presets');
+  },
+
+  // 生成字幕预览图
+  previewSubtitle: async (text, config) => {
+    const query = new URLSearchParams({ text }).toString();
+    return request(`/video/preview-subtitle?${query}`, {
+      method: 'POST',
+      body: JSON.stringify(config),
+    });
+  },
+};
+
+// ============ 模型配置 ============
+export const modelConfigApi = {
+  // 列出配置
+  list: async (type) => {
+    const query = type ? new URLSearchParams({ type }).toString() : '';
+    return request(`/model-configs${query ? '?' + query : ''}`);
+  },
+
+  // 新增配置
+  create: async (data) => {
+    return request('/model-configs', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  // 更新配置
+  update: async (id, data) => {
+    return request(`/model-configs/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  },
+
+  // 删除配置
+  delete: async (id) => {
+    return request(`/model-configs/${id}`, { method: 'DELETE' });
+  },
+
+  // 设为默认
+  setDefault: async (id) => {
+    return request(`/model-configs/${id}/set-default`, { method: 'POST' });
+  },
+
+  // 测试连通性
+  test: async (id) => {
+    return request(`/model-configs/${id}/test`, { method: 'POST' });
+  },
+};
+
+// ============ 角色管理 ============
+export const characterApi = {
+  // 列出可见角色
+  list: async (keyword) => {
+    const query = keyword ? new URLSearchParams({ keyword }).toString() : '';
+    return request(`/characters${query ? '?' + query : ''}`);
+  },
+
+  // 创建角色
+  create: async (data) => {
+    return request('/characters', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  // 更新角色
+  update: async (id, data) => {
+    return request(`/characters/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  },
+
+  // 删除角色
+  delete: async (id) => {
+    return request(`/characters/${id}`, { method: 'DELETE' });
+  },
+};
+
+// 导出默认 API 基础 URL（供组件直接构造 URL 使用）
+export { API_BASE_URL };
