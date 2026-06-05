@@ -18,34 +18,11 @@ from config.database import get_db
 from models.model_config import ModelConfig
 from models.user import User
 from utils.auth_deps import get_current_user
+from utils.crypto import encrypt_api_key, decrypt_api_key
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/model-configs", tags=["模型配置"])
-
-
-# ============ 加密工具 ============
-
-def _get_fernet() -> Fernet:
-    """获取 Fernet 加密器（密钥从环境变量读取）"""
-    key = os.getenv("API_KEY_ENCRYPTION_KEY")
-    if not key:
-        # 使用固定密钥作为开发默认值（生产环境必须设置环境变量）
-        key = "ZGV2LWtleS0xMjM0NTY3ODkwYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo="
-    return Fernet(key.encode() if isinstance(key, str) else key)
-
-
-def encrypt_api_key(plain_key: str) -> str:
-    """加密 API Key"""
-    return _get_fernet().encrypt(plain_key.encode()).decode()
-
-
-def decrypt_api_key(encrypted_key: str) -> str:
-    """解密 API Key"""
-    try:
-        return _get_fernet().decrypt(encrypted_key.encode()).decode()
-    except Exception:
-        return ""
 
 
 # ============ Pydantic Schemas ============

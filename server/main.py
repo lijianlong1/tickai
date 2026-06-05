@@ -21,6 +21,7 @@ from routes.create_history import router as create_history_router
 from routes.video import router as video_router
 from routes.model_config import router as model_config_router
 from routes.character import router as character_router, init_default_characters
+from routes.model_api import router as model_api_router
 
 # 创建应用实例
 app = FastAPI(
@@ -55,6 +56,7 @@ app.include_router(create_history_router, prefix="/api")
 app.include_router(video_router, prefix="/api")
 app.include_router(model_config_router, prefix="/api")
 app.include_router(character_router, prefix="/api")
+app.include_router(model_api_router, prefix="/api")
 
 
 @app.on_event("startup")

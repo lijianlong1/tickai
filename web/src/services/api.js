@@ -318,3 +318,56 @@ export const characterApi = {
 
 // 导出默认 API 基础 URL（供组件直接构造 URL 使用）
 export { API_BASE_URL };
+
+// ============ 模型调用（实时 API） ============
+export const modelApi = {
+  // 文本对话
+  chat: async (params) => {
+    return request('/model/chat', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+  },
+
+  // 图像生成
+  generateImage: async (params) => {
+    return request('/model/image', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+  },
+
+  // 剧本生成
+  generateScript: async (params) => {
+    return request('/model/script', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+  },
+
+  // 图像分析
+  analyzeImage: async (params) => {
+    return request('/model/analyze-image', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+  },
+
+  // 列出 provider
+  listProviders: async () => {
+    return request('/model/providers');
+  },
+
+  // 列出模型
+  listModels: async (provider, type) => {
+    const query = new URLSearchParams();
+    if (provider) query.append('provider', provider);
+    if (type) query.append('model_type', type);
+    return request(`/model/models?${query.toString()}`);
+  },
+
+  // 健康检查
+  healthCheck: async (provider = 'minimax') => {
+    return request(`/model/health?provider=${provider}`);
+  },
+};
